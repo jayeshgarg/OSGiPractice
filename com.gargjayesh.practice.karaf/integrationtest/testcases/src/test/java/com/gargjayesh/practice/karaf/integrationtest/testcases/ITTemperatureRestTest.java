@@ -22,6 +22,8 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerMethod;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gargjayesh.practice.karaf.sensor.api.TemperatureSensor;
 
@@ -29,6 +31,20 @@ import com.gargjayesh.practice.karaf.sensor.api.TemperatureSensor;
 @ExamReactorStrategy(PerMethod.class) //Pax container OSGI RT starter configuration
 public class ITTemperatureRestTest
 {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ITTemperatureRestTest.class);
+
+    static
+    {
+        try
+        {
+            Class.forName("org.ops4j.pax.exam.options.extra.FeaturesScannerProvisionOption");
+        } catch (Exception e)
+        {
+            LOG.error("Class def not found");
+        }
+    }
+
     @Inject
     private BundleContext bundleContext;
 
@@ -61,12 +77,15 @@ public class ITTemperatureRestTest
                 new KarafDistributionConfigurationFileReplacementOption("etc/org.ops4j.pax.url.mvn.cfg", new File("src/test/resources/org.ops4j.pax.url.mvn.cfg")),
                 new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "jmstransportconnector.uri", "tcp://0.0.0.0:61616"),
                 new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "connectionfactory.uri", "vm://localhost"),
-                workingDirectory("target/paxrunner/features/")};
+                workingDirectory("target/paxrunner/features/")
+        };
+
     }
 
     @Test
     public void test() throws Exception
     {
+        LOG.debug("Test case started");
         assertNotNull(sensor.getTemperature());
     }
 

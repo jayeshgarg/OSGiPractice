@@ -2,3 +2,4 @@ META-INF
 target
 *.iml
 .idea
+*logs*
