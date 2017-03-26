@@ -20,8 +20,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <orj.apache.felix.scr.version>1.8.2</orj.apache.felix.scr.version>
-        <orj.apache.felix.annotations.version>1.10.0</orj.apache.felix.annotations.version>
+        <org.apache.felix.scr.version>1.8.2</org.apache.felix.scr.version>
+        <org.apache.felix.annotations.version>1.10.0</org.apache.felix.annotations.version>
         <com.eclipsesource.jaxrs.version>2.10.1</com.eclipsesource.jaxrs.version>
         <org.osgi.core.version>4.3.1</org.osgi.core.version>
         <maven.resource.plugin.version>2.6</maven.resource.plugin.version>
@@ -43,34 +43,29 @@
             <version>${com.google.code.gson.gson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${release.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${release.version}</version>
+            <version>${org.osgi.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
-            <version>${release.version}</version>
+            <version>${org.osgi.core.version}</version>
         </dependency>
         <dependency>
             <groupId>com.eclipsesource.jaxrs</groupId>
             <artifactId>jersey-all</artifactId>
-            <version>${release.version}</version>
+            <version>${com.eclipsesource.jaxrs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.scr</artifactId>
-            <version>${release.version}</version>
+            <version>${org.apache.felix.scr.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.scr.annotations</artifactId>
-            <version>${release.version}</version>
+            <version>${org.apache.felix.annotations.version}</version>
         </dependency>
         <!-- Itest container deps -->
         <dependency>
