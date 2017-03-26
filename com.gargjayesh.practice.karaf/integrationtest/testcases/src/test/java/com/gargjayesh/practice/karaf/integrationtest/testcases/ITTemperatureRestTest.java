@@ -46,16 +46,19 @@ public class ITTemperatureRestTest
     public Option[] config()
     {
         MavenArtifactUrlReference karafUrl = maven().groupId("org.apache.karaf").artifactId("apache-karaf").version("3.0.0").type("tar.gz");
-        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").classifier("features").type("xml").versionAsInProject();
+        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").version("4.1.0").type("xml").classifier("features");
         return new Option[]{
                 // KarafDistributionOption.debugConfiguration("5005", true),
                 karafDistributionConfiguration().frameworkUrl(karafUrl).unpackDirectory(new File("target/exam")).useDeployFolder(false), keepRuntimeFolder(),
                 features(karafStandardRepo, "scr"),
+                mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("jersey-all").version("2.22.2").start(),
+                mavenBundle().groupId("com.google.code.gson").artifactId("gson").version("2.8.0").start(),
+                mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("publisher").version("5.0").start(),
                 mavenBundle().groupId("com.gargjayesh.practice.karaf.views").artifactId("entities").version("0.1-SNAPSHOT").start(),
                 mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("api").version("0.1-SNAPSHOT").start(),
                 mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("impl").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("api").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("impl").version("0.1-SNAPSHOT").start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("api").version("0.1-SNAPSHOT").start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("impl").version("0.1-SNAPSHOT").start(),
                 mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("api").version("0.1-SNAPSHOT").start(),
                 mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("impl").version("0.1-SNAPSHOT").start()
         };
