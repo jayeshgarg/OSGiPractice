@@ -42,13 +42,13 @@ public class ITTemperatureRestTest
     public static Option[] configuration()
     {
         Option[] testBundles = options(
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.views").artifactId("entities").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("api").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("impl").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("api").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("impl").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("api").version("0.1"),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("impl").version("0.1"));
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.views").artifactId("entities").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("api").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("impl").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("api").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherdisplay").artifactId("impl").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("api").version("0.1-SNAPSHOT"),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("impl").version("0.1-SNAPSHOT"));
         Option[] abc = config();
         Option[] options = OptionUtils.combine(testBundles, abc);
         return options;
@@ -58,9 +58,9 @@ public class ITTemperatureRestTest
     {
         return new Option[]{
                 karafDistributionConfiguration().frameworkUrl(maven().groupId("org.apache.karaf").artifactId("apache-karaf").type("zip").versionAsInProject()).karafVersion("2.3.0").name("Apache Karaf"),
-                new KarafDistributionConfigurationFileReplacementOption("etc/org.ops4j.pax.url.mvn.cfg", new File("src/test/resources/org.ops4j.pax.url.mvn.cfg")), // Karaf configuration which, for example add our nexus to its configuration
-                new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "jmstransportconnector.uri", "tcp://0.0.0.0:61616"), // Some compedium configuration to make the framework running
-                new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "connectionfactory.uri", "vm://localhost"),//the feature we want to install (all that's needed to start our service)
+                new KarafDistributionConfigurationFileReplacementOption("etc/org.ops4j.pax.url.mvn.cfg", new File("src/test/resources/org.ops4j.pax.url.mvn.cfg")),
+                new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "jmstransportconnector.uri", "tcp://0.0.0.0:61616"),
+                new KarafDistributionConfigurationFilePutOption("etc/jmsconfig.cfg", "connectionfactory.uri", "vm://localhost"),
                 workingDirectory("target/paxrunner/features/")};
     }
 
