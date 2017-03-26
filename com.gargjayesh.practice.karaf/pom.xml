@@ -53,72 +53,48 @@
             <artifactId>org.apache.felix.scr.annotations</artifactId>
             <version>1.12.0</version>
         </dependency>
-        <!-- Itest container deps -->
         <dependency>
-            <groupId>org.apache.karaf.tooling.exam</groupId>
-            <artifactId>org.apache.karaf.tooling.exam.container</artifactId>
-            <version>2.3.12</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.ops4j.pax.swissbox</groupId>
-                    <artifactId>pax-swissbox-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.ops4j.pax.swissbox</groupId>
-                    <artifactId>pax-swissbox-extender</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.ops4j.pax.swissbox</groupId>
-                    <artifactId>pax-swissbox-framework</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
-        <!-- Pax Exam version you would like to use. At least 2.2.x is required. -->
+
+        <!-- Dependencies fir Integration Tests -->
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-container-default</artifactId>
-            <version>1.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam</artifactId>
+            <artifactId>pax-exam-container-karaf</artifactId>
             <version>4.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-spi</artifactId>
-            <version>4.10.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
             <artifactId>pax-exam-junit4</artifactId>
             <version>4.10.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.ops4j.pax.swissbox</groupId>
-            <artifactId>pax-swissbox-core</artifactId>
-            <version>1.8.2</version>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam</artifactId>
+            <version>4.10.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.ops4j.pax.swissbox</groupId>
-            <artifactId>pax-swissbox-framework</artifactId>
-            <version>1.8.2</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.ops4j.pax.swissbox</groupId>
-            <artifactId>pax-swissbox-extender</artifactId>
-            <version>LATEST</version>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-aether</artifactId>
+            <version>2.5.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.karaf</groupId>
-            <artifactId>apache-karaf</artifactId>
-            <version>3.0.8</version>
-            <type>zip</type>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
