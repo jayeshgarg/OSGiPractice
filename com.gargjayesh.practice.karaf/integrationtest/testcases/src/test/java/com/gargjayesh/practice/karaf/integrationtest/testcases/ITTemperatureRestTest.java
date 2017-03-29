@@ -1,13 +1,13 @@
 package com.gargjayesh.practice.karaf.integrationtest.testcases;
 
 import static org.junit.Assert.assertNotNull;
-import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
+
+import java.io.File;
 
 import javax.inject.Inject;
 import java.io.BufferedReader;
@@ -61,8 +61,8 @@ public class ITTemperatureRestTest
     @Configuration
     public Option[] config()
     {
-        MavenArtifactUrlReference karafUrl = maven().groupId("org.apache.karaf").artifactId("apache-karaf").version("3.0.6").type("tar.gz");
-        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").classifier("features").version("3.0.6").type("xml");
+        MavenArtifactUrlReference karafUrl = maven().groupId("org.apache.karaf").artifactId("apache-karaf").version("4.1.0").type("tar.gz");
+        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").classifier("features").version("4.1.0").type("xml");
         return new Option[]{
                 //set this to true if we want to enable remote debugging in karaf
                 //debugConfiguration("5005", false),
@@ -79,12 +79,12 @@ public class ITTemperatureRestTest
                 //list of features on which project depends
                 features(karafStandardRepo, "scr", "webconsole", "war", "pax-http"),
 
-                configureConsole().ignoreLocalConsole(),
+                //configureConsole().ignoreLocalConsole(),
 
                 //list of 3rd party project dependencies
                 mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("jersey-all").version("2.22.2").start(),
                 mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("publisher").version("5.0").start(),
-                bundle("wrap:mvn:com.google.code.gson/gson/2.8.0"),
+                mavenBundle().groupId("com.google.code.gson").artifactId("gson").version("2.7"),
                 bundle("wrap:mvn:org.apache.httpcomponents/httpclient/4.5.3"),
                 bundle("wrap:mvn:org.apache.httpcomponents/httpcore/4.4.6"),
 
