@@ -1,13 +1,13 @@
 package com.gargjayesh.practice.karaf.integrationtest.testcases;
 
 import static org.junit.Assert.assertNotNull;
+import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.features;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
-
-import java.io.File;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.logLevel;
 
 import javax.inject.Inject;
 import java.io.BufferedReader;
@@ -26,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.karaf.options.LogLevelOption.LogLevel;
 import org.ops4j.pax.exam.options.MavenArtifactUrlReference;
 import org.ops4j.pax.exam.options.MavenUrlReference;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -35,20 +36,14 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gargjayesh.practice.karaf.sensor.api.TemperatureSensor;
-
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class) //Pax container OSGI RT starter configuration
+@ExamReactorStrategy(PerMethod.class)
 public class ITTemperatureRestTest
 {
 
     public static final long MAX_CONTAINER_STARTUP_TIME = 8 * 10 * 1000;
 
     private static final Logger LOG = LoggerFactory.getLogger(ITTemperatureRestTest.class);
-
-    @Inject
-    @org.ops4j.pax.exam.util.Filter(timeout = MAX_CONTAINER_STARTUP_TIME)
-    protected TemperatureSensor sensor;
 
     @Inject
     @org.ops4j.pax.exam.util.Filter(timeout = MAX_CONTAINER_STARTUP_TIME)
@@ -61,14 +56,17 @@ public class ITTemperatureRestTest
     @Configuration
     public Option[] config()
     {
-        MavenArtifactUrlReference karafUrl = maven().groupId("org.apache.karaf").artifactId("apache-karaf").version("4.1.0").type("tar.gz");
-        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").classifier("features").version("4.1.0").type("xml");
+        MavenArtifactUrlReference karafUrl = maven().groupId("org.apache.karaf").artifactId("apache-karaf").version("3.0.8").type("tar.gz");
+        MavenUrlReference karafStandardRepo = maven().groupId("org.apache.karaf.features").artifactId("standard").classifier("features").version("3.0.8").type("xml");
         return new Option[]{
                 //set this to true if we want to enable remote debugging in karaf
                 //debugConfiguration("5005", false),
 
                 //option to clean exam folder after TCs execution
                 keepRuntimeFolder(),
+
+                //set the default log level here (TRACE < DEBUG < INFO < WARN < ERROR)
+                logLevel(LogLevel.DEBUG),
 
                 //option to increase or decrease karaf service lookup timeout time, if yo have more bundles, increase this
                 //new RBCLookupTimeoutOption(TimeUnit.MINUTES.toMillis(10)),
@@ -82,20 +80,22 @@ public class ITTemperatureRestTest
                 //configureConsole().ignoreLocalConsole(),
 
                 //list of 3rd party project dependencies
+                //(below method will load osgi bundle in karaf container)
                 mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("jersey-all").version("2.22.2").start(),
                 mavenBundle().groupId("com.eclipsesource.jaxrs").artifactId("publisher").version("5.0").start(),
                 mavenBundle().groupId("com.google.code.gson").artifactId("gson").version("2.7"),
+                //(below method will load non-osgi jar in karaf container)
                 bundle("wrap:mvn:org.apache.httpcomponents/httpclient/4.5.3"),
                 bundle("wrap:mvn:org.apache.httpcomponents/httpcore/4.4.6"),
 
                 //list of project bundles under test
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.views").artifactId("entities").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("api").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("impl").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("api").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("impl").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("api").version("0.1-SNAPSHOT").start(),
-                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("impl").version("0.1-SNAPSHOT").start()
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.views").artifactId("entities").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("api").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.sensor").artifactId("impl").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("api").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.weatherstation").artifactId("impl").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("api").versionAsInProject().start(),
+                mavenBundle().groupId("com.gargjayesh.practice.karaf.displayunit").artifactId("impl").versionAsInProject().start()
         };
     }
 
@@ -115,13 +115,13 @@ public class ITTemperatureRestTest
         assertNotNull(responseEntity);
     }
 
-    private String convertResponseEntityToString(HttpEntity entity) throws IOException{
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(entity.getContent()));
-
+    private String convertResponseEntityToString(HttpEntity entity) throws IOException
+    {
+        BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
         StringBuffer result = new StringBuffer();
         String line = "";
-        while ((line = rd.readLine()) != null) {
+        while ((line = rd.readLine()) != null)
+        {
             result.append(line);
         }
         return result.toString();

@@ -4,12 +4,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,17 +21,16 @@ import com.google.gson.GsonBuilder;
 /**
  * Created by egarjay on 22-03-2017.
  */
-@Service(value = RestWeatherDisplay.class)
-@Component(name = "RestWeatherDisplay", label = "RestWeatherDisplay", immediate = true)
+@Component(name = "RestWeatherDisplay", immediate = true, service = RestWeatherDisplay.class)
 public class RestWeatherDisplayImpl implements RestWeatherDisplay
 {
     private static final Logger LOG = LoggerFactory.getLogger(RestWeatherDisplayImpl.class);
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    @Reference(bind = "bindWeatherStation", unbind = "unbindWeatherStation", cardinality = ReferenceCardinality.MANDATORY_UNARY, policy = ReferencePolicy.STATIC)
     private WeatherStation weatherStation;
 
+    @Reference(unbind = "unbindWeatherStation", cardinality = ReferenceCardinality.MANDATORY)
     protected void bindWeatherStation(WeatherStation weatherStation)
     {
         LOG.debug("WeatherStation : Binded");

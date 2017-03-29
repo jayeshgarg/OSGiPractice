@@ -2,9 +2,8 @@ package com.gargjayesh.practice.karaf.sensor.impl;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +13,7 @@ import com.gargjayesh.practice.karaf.views.entities.Humidity;
 /**
  * Created by egarjay on 21-03-2017.
  */
-@Service(value = HumiditySensor.class)
-@Component(name = "HumiditySensor", label = "HumiditySensor", immediate = true)
+@Component(name = "HumiditySensor", immediate = true, service = HumiditySensor.class)
 public class HumiditySensorImpl implements HumiditySensor
 {
     private static final Logger LOG = LoggerFactory.getLogger(HumiditySensorImpl.class);

@@ -20,18 +20,12 @@
             <artifactId>entities</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.gargjayesh.practice.karaf.sensor</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-		
-		        <!-- Dependencies fir Integration Tests -->
+
+		        <!-- Dependencies for Integration Tests -->
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
             <artifactId>pax-exam-container-karaf</artifactId>
             <version>4.10.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
@@ -69,16 +63,6 @@
             <classifier>features</classifier>
             <version>4.1.0</version>
             <type>xml</type>
-        </dependency>
-        <dependency>
-            <groupId>com.gargjayesh.practice.karaf.sensor</groupId>
-            <artifactId>impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gargjayesh.practice.karaf.sensor</groupId>
-            <artifactId>impl</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

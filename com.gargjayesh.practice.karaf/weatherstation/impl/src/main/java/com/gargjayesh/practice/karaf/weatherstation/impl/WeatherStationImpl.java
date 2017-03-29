@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Modified;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.ReferenceCardinality;
-import org.apache.felix.scr.annotations.ReferencePolicy;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,13 +23,9 @@ import com.gargjayesh.practice.karaf.weatherstation.impl.internal.ReadSensor;
 /**
  * Created by egarjay on 21-03-2017.
  */
-@Service(value = WeatherStation.class)
-@Component(name = "WeatherStation", label = "WeatherStation", immediate = true, metatype = true)
+@Component(name = "WeatherStation", immediate = true, service = WeatherStation.class, property = {"readInterval=5"})
 public class WeatherStationImpl implements WeatherStation
 {
-    public static final int DEFAULT_READ_INTERVAL = 5;
-
-    @Property(intValue = DEFAULT_READ_INTERVAL, description = "read interval for readings", label = "read interval for readings")
     public static final String READ_INTERVAL = "readInterval";
 
     private static final Logger LOG = LoggerFactory.getLogger(WeatherStationImpl.class);
@@ -43,12 +36,11 @@ public class WeatherStationImpl implements WeatherStation
 
     private Timer timerHumidity;
 
-    @Reference(bind = "bindHumiditySensor", unbind = "unbindHumiditySensor", cardinality = ReferenceCardinality.MANDATORY_UNARY, policy = ReferencePolicy.STATIC)
     private HumiditySensor humiditySensor;
 
-    @Reference(bind = "bindTemperatureSensor", unbind = "unbindTemperatureSensor", cardinality = ReferenceCardinality.MANDATORY_UNARY, policy = ReferencePolicy.STATIC)
     private TemperatureSensor temperatureSensor;
 
+    @Reference(unbind = "unbindHumiditySensor", cardinality = ReferenceCardinality.MANDATORY)
     protected void bindHumiditySensor(HumiditySensor humiditySensor)
     {
         LOG.debug("HumiditySensor : Binded");
@@ -61,6 +53,7 @@ public class WeatherStationImpl implements WeatherStation
         this.humiditySensor = null;
     }
 
+    @Reference(unbind = "unbindTemperatureSensor", cardinality = ReferenceCardinality.MANDATORY)
     protected void bindTemperatureSensor(TemperatureSensor temperatureSensor)
     {
         LOG.debug("TemperatureSensor : Binded");
