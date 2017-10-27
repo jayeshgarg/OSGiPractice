@@ -17,8 +17,6 @@ import com.gargjayesh.practice.karaf.sensor.api.TemperatureSensor;
 import com.gargjayesh.practice.karaf.views.entities.Humidity;
 import com.gargjayesh.practice.karaf.views.entities.Temperature;
 import com.gargjayesh.practice.karaf.weatherstation.api.WeatherStation;
-import com.gargjayesh.practice.karaf.weatherstation.impl.internal.DummyDataStorage;
-import com.gargjayesh.practice.karaf.weatherstation.impl.internal.ReadSensor;
 
 /**
  * Created by egarjay on 21-03-2017.
