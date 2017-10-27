@@ -18,22 +18,34 @@ public final class DummyDataStorage
 
     public static void addHumidityDataList(List<Humidity> humidityDataFromSensorList)
     {
-        humidityData.addAll(humidityDataFromSensorList);
+        if (humidityData.size() < 20)
+        {
+            humidityData.addAll(humidityDataFromSensorList);
+        }
     }
 
     public static void addTemperatureDataList(List<Temperature> temperatureDataFromSensorList)
     {
-        temperatureData.addAll(temperatureDataFromSensorList);
+        if (temperatureData.size() < 20)
+        {
+            temperatureData.addAll(temperatureDataFromSensorList);
+        }
     }
 
     public static void addHumidityData(Humidity humidityDataFromSensor)
     {
-        humidityData.add(humidityDataFromSensor);
+        if (humidityData.size() < 20)
+        {
+            humidityData.add(humidityDataFromSensor);
+        }
     }
 
     public static void addTemperatureData(Temperature temperatureDataFromSensor)
     {
-        temperatureData.add(temperatureDataFromSensor);
+        if (temperatureData.size() < 20)
+        {
+            temperatureData.add(temperatureDataFromSensor);
+        }
     }
 
     public static List<Humidity> getHumidityDataForDisplay()
